@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Store | Tylessia Willis</title>
+  <meta name="description" content="Services and digital templates by Tylessia Willis." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- Small safety styles (only for the new store controls + badges) -->
+  <style>
+    .store-controls{display:grid;gap:12px;margin-top:16px}
+    .store-search{width:100%}
+    .store-filters{display:flex;flex-wrap:wrap;gap:10px}
+    .pill-btn{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:inherit;padding:8px 12px;border-radius:999px;cursor:pointer;font:inherit}
+    .pill-btn.is-active{background:rgba(255,255,255,.10)}
+    .store-badge{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
+    .card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .store-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .is-hidden{display:none!important}
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <button id="menu-toggle" class="menu-toggle" aria-label="Open navigation" aria-expanded="false" type="button">
+    <span class="bars" aria-hidden="true">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </span>
+  </button>
+  <div id="site-overlay" class="site-overlay" aria-hidden="true"></div>
+  <nav id="site-nav" class="site-nav" aria-label="Site"></nav>
+
+  <main class="page">
+    <div class="container">
+
+      <section class="card card-pad">
+        <h1 class="h1">Digital products & services</h1>
+        <p class="muted" style="margin-top:10px">
+          Templates built for job seekers, creator, and small business owners.</p>
+
+        <!-- Search + Filters -->
+        <div class="store-controls">
+          <input
+            id="storeSearch"
+            class="input store-search"
+            type="search"
+            placeholder="Search templates, guides, services..."
+            aria-label="Search store items"
+          />
+
+          <div class="store-filters" role="tablist" aria-label="Store filters">
+            <button class="pill-btn is-active" data-filter="all" type="button">All</button>
+            <button class="pill-btn" data-filter="services" type="button">Services</button>
+            <button class="pill-btn" data-filter="templates" type="button">Templates</button>
+            <button class="pill-btn" data-filter="guides" type="button">Guides</button>
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:18px"></div>
+
+        <!-- SERVICES -->
+        <h2 class="h2">Services</h2>
+
+        <div class="grid grid-3">
+          <div class="card store-item" data-type="services" data-title="Portfolio Website">
+            <div class="card-top">
+              <span class="pill"></span>
+            </div>
+
+            <h3 style="margin-top:10px">Custom Website</h3>
+            <div class="pill-row">
+              <span class="pill">Custom website template for personal, creators, or small business.</span>
+            </div>
+
+            <div class="store-actions">
+              <a class="btn primary" href="contact.html">Request quote</a>
+            </div>
+          </div>
+
+          <div class="card store-item" data-type="services" data-title="Website Refresh">
+    
+
+            <h3 style="margin-top:10px">Website Refresh</h3>
+            <p class="muted">
+              Cleanup, mobile fixes, and visual polish for existing sites.
+            </p>
+
+            <div class="pill-row">
+              <span class="pill">UX</span>
+              <span class="pill">Performance</span>
+            </div>
+
+            <div class="store-actions">
+              <a class="btn primary" href="contact.html">Request quote</a>
+            </div>
+          </div>
+
+          <div class="card store-item" data-type="services" data-title="Ongoing Support">
+            <div class="card-top">
+            </div>
+
+            <h3 style="margin-top:10px">Ongoing Support</h3>
+            <p class="muted">
+              Updates, fixes, and help when something breaks.
+            </p>
+
+            <div class="pill-row">
+              <span class="pill">Maintenance</span>
+              <span class="pill">Support</span>
+            </div>
+
+            <div class="store-actions">
+              <a class="btn primary" href="contact.html">Request quote</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider" style="margin-top:18px"></div>
+
+        <!-- TEMPLATES -->
+        <h2 class="h2">Templates</h2>
+
+        <div class="grid grid-3">
+          <div class="card store-item" data-type="templates" data-title="Minimal Portfolio Template">
+            <div class="card-top">
+              <span class="pill"><h3 style="margin-top:10px">Portfolio Template</h3></span>
+              <span class="store-badge">Coming soon</span>
+            </div>
+            <p class="muted">
+              Dark, modern portfolio you can deploy on GitHub Pages.
+            </p>
+
+            <div class="store-actions">
+              <a class="btn primary" href="contact.html">Get notified</a>
+              <a class="btn" href="projects.html">Preview</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="assets/js/site.js" defer></script>
+
+  <!-- Store search + filters -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const search = document.getElementById("storeSearch");
+      const items = Array.from(document.querySelectorAll(".store-item"));
+      const filterBtns = Array.from(document.querySelectorAll(".pill-btn"));
+
+      let active = "all";
+
+      function apply() {
+        const q = (search?.value || "").trim().toLowerCase();
+
+        items.forEach(el => {
+          const type = el.getAttribute("data-type") || "";
+          const title = (el.getAttribute("data-title") || "").toLowerCase();
+          const text = (el.textContent || "").toLowerCase();
+
+          const okType = (active === "all") || (type === active);
+          const okSearch = !q || title.includes(q) || text.includes(q);
+
+          el.classList.toggle("is-hidden", !(okType && okSearch));
+        });
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach(b => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+          active = btn.getAttribute("data-filter") || "all";
+          apply();
+        });
+      });
+
+      search?.addEventListener("input", apply);
+      apply();
+    });
+  </script>
+</body>
+</html>
