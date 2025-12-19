@@ -9,14 +9,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="assets/css/styles.css" />
 
-  <!-- Store-only polish (no global CSS edits needed) -->
+  <!-- Store-only styling (safe, does not change global styles.css) -->
   <style>
     .store-controls{display:grid;gap:12px;margin-top:16px}
     .store-search{width:100%}
     .store-filters{display:flex;flex-wrap:wrap;gap:10px}
+
     .pill-btn{
       border:1px solid rgba(255,255,255,.14);
       background:rgba(255,255,255,.04);
@@ -29,11 +29,18 @@
     .pill-btn.is-active{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22)}
     .is-hidden{display:none!important}
 
-    /* Section spacing */
+    .results-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top: 14px;
+      opacity: .85;
+      flex-wrap:wrap;
+    }
+
     .store-section{margin-top:22px}
     .store-section .h2{margin:0 0 12px}
 
-    /* Product catalog card */
     .catalog{display:grid;gap:14px}
     .product{
       display:grid;
@@ -49,10 +56,6 @@
       .product{grid-template-columns:1fr}
     }
 
-    .product__media{
-      text-decoration:none;
-      color:inherit;
-    }
     .product__thumb{
       border-radius: 14px;
       aspect-ratio: 16 / 10;
@@ -61,7 +64,7 @@
       display:grid;
       place-items:center;
       font-size: 13px;
-      opacity: .88;
+      opacity: .9;
       overflow:hidden;
     }
     .product__thumb img{
@@ -69,7 +72,7 @@
       height:100%;
       object-fit:cover;
       display:block;
-      opacity:.95;
+      opacity:.98;
     }
 
     .product__top{
@@ -94,13 +97,13 @@
     }
 
     .product__title{margin:10px 0 6px;font-size:20px;line-height:1.25}
-    .product__desc{margin:0 0 10px;opacity:.78;line-height:1.45}
+    .product__desc{margin:0 0 10px;opacity:.78;line-height:1.5;max-width:70ch}
 
     .product__tags{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
-      margin-bottom:14px;
+      margin:0; /* ✅ remove extra bottom margin so button row feels unified */
     }
     .tag{
       font-size: 12px;
@@ -111,22 +114,31 @@
       opacity:.9;
     }
 
-    .product__actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{padding:10px 14px;border-radius:12px}
-
-    .product__note{
-      margin-top: 8px;
-      font-size: 13px;
-      opacity: .65;
+    /* ✅ NEW: bottom row = tags left, buy button right */
+    .product__bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-top:14px;
+      flex-wrap:wrap;
     }
 
-    .results-meta{
+    .product__actions{
       display:flex;
-      justify-content:space-between;
       gap:12px;
-      margin-top: 14px;
-      opacity: .85;
       flex-wrap:wrap;
+      margin-top:0; /* ✅ no lonely spacing */
+    }
+
+    /* keep your existing button shape, just slightly tighter */
+    .btn{padding:10px 16px;border-radius:12px}
+
+    .product__note{
+      margin-top: 10px;
+      font-size: 13px;
+      opacity: .65;
+      max-width: 72ch;
     }
 
     .sr-only{position:absolute;left:-9999px}
@@ -142,15 +154,16 @@
       <span class="bar"></span>
     </span>
   </button>
+
   <div id="site-overlay" class="site-overlay" aria-hidden="true"></div>
   <nav id="site-nav" class="site-nav" aria-label="Site"></nav>
 
   <main class="page">
     <div class="container">
       <section class="card card-pad">
-        <h1 class="h1">Store Catalog</h1>
+        <h1 class="h1">Store</h1>
         <p class="muted" style="margin-top:10px">
-          Digital templates and services built for job seekers, creators, and small business owners.
+          Digital templates and downloads. More products will be added over time.
         </p>
 
         <!-- Search + Filters -->
@@ -160,14 +173,13 @@
             id="storeSearch"
             class="input store-search"
             type="search"
-            placeholder="Search templates, services..."
+            placeholder="Search templates, downloads..."
             aria-label="Search store items"
           />
 
           <div class="store-filters" role="tablist" aria-label="Store filters">
             <button class="pill-btn is-active" data-filter="all" type="button">All</button>
             <button class="pill-btn" data-filter="templates" type="button">Templates</button>
-            <button class="pill-btn" data-filter="guides" type="button">services</button>
           </div>
 
           <div class="results-meta">
@@ -185,12 +197,12 @@
           <div class="catalog">
             <!-- Linen -->
             <article class="product store-item" data-type="templates" data-title="Linen Portfolio Template">
-              <!-- No preview link: thumbnail is just visual -->
               <div class="product__media" aria-hidden="true">
                 <div class="product__thumb">
                   <img
                     src="StoreCatalog Thumbnails/Linen/Linen Portfolio Thumbnail.jpg"
                     alt="Linen Portfolio Template preview"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -198,74 +210,95 @@
               <div class="product__content">
                 <div class="product__top">
                   <span class="product__type">Template</span>
-                  <span class="product__badge">New • Gumroad</span>
+                  <span class="product__badge">Light • Aesthetic</span>
                 </div>
 
                 <h3 class="product__title">Linen Portfolio Template</h3>
                 <p class="product__desc">
-                  Light, soft portfolio template built with HTML/CSS/JS. Clean sections,
-                 aesthetic layout, and easy customization.
+                  Light, soft portfolio template built with HTML/CSS/JS. Clean sections, calm spacing,
+                  and an aesthetic layout designed for personal branding and creative portfolios.
                 </p>
 
-                <div class="product__tags">
-                  <span class="tag">HTML</span>
-                  <span class="tag">CSS</span>
-                  <span class="tag">JS</span>
-                  <span class="tag">Responsive</span>
-                  <span class="tag">Light theme</span>
-                  <span class="tag">Aesthetic</span>
+                <!-- ✅ Tags + Buy on one row -->
+                <div class="product__bottom">
+                  <div class="product__tags">
+                    <span class="tag">HTML</span>
+                    <span class="tag">CSS</span>
+                    <span class="tag">JS</span>
+                    <span class="tag">Light theme</span>
+                    <span class="tag">Responsive</span>
+                  </div>
+
+                  <div class="product__actions">
+                    <a
+                      class="btn primary"
+                      href="https://tylessia.gumroad.com/l/Linen-Portfolio?_gl=1*1cf4hp6*_ga*MTQ0NDc4MDMxNi4xNzY2MDg4Njkw*_ga_6LJN6D94N6*czE3NjYwOTczNzYkbzMkZzEkdDE3NjYxMDEyMTUkajU3JGwwJGgw"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Buy
+                    </a>
+                  </div>
                 </div>
-<script>
-(() => {
-  const search = document.getElementById("storeSearch");
-  const count = document.getElementById("resultCount");
-  const filterBtns = Array.from(document.querySelectorAll(".pill-btn"));
-  const items = Array.from(document.querySelectorAll(".store-item"));
 
-  // If these log 0, your IDs/classes don't match your HTML
-  console.log("storeSearch:", !!search);
-  console.log("resultCount:", !!count);
-  console.log("pill-btn count:", filterBtns.length);
-  console.log("store-item count:", items.length);
+                <p class="product__note">
+                  Purchasing opens the Gumroad product page in a new tab.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
 
-  let active = "all";
+      </section>
+    </div>
+  </main>
 
-  function apply() {
-    const q = (search?.value || "").trim().toLowerCase();
-    let visible = 0;
+  <!-- Global nav -->
+  <script src="assets/js/site.js" defer></script>
 
-    items.forEach((el) => {
-      const type = (el.getAttribute("data-type") || "").toLowerCase();
-      const title = (el.getAttribute("data-title") || "").toLowerCase();
-      const text = (el.textContent || "").toLowerCase();
+  <!-- Store filter + results count -->
+  <script>
+    (() => {
+      const search = document.getElementById("storeSearch");
+      const count = document.getElementById("resultCount");
+      const filterBtns = Array.from(document.querySelectorAll(".pill-btn"));
+      const items = Array.from(document.querySelectorAll(".store-item"));
 
-      const okType = (active === "all") || (type === active);
-      const okSearch = !q || title.includes(q) || text.includes(q);
+      let active = "all";
 
-      const show = okType && okSearch;
-      el.classList.toggle("is-hidden", !show);
-      if (show) visible++;
-    });
+      function apply() {
+        const q = (search?.value || "").trim().toLowerCase();
+        let visible = 0;
 
-    if (count) count.textContent = `${visible} result${visible === 1 ? "" : "s"}`;
-  }
+        items.forEach((el) => {
+          const type = (el.dataset.type || "").toLowerCase();
+          const title = (el.dataset.title || "").toLowerCase();
+          const text = (el.textContent || "").toLowerCase();
 
-  // Pills
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filterBtns.forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      active = (btn.getAttribute("data-filter") || "all").toLowerCase();
+          const okType = (active === "all") || (type === active);
+          const okSearch = !q || title.includes(q) || text.includes(q);
+
+          const show = okType && okSearch;
+          el.classList.toggle("is-hidden", !show);
+          if (show) visible++;
+        });
+
+        if (count) count.textContent = `${visible} result${visible === 1 ? "" : "s"}`;
+      }
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("is-active"));
+          btn.classList.add("is-active");
+          active = (btn.dataset.filter || "all").toLowerCase();
+          apply();
+        });
+      });
+
+      if (search) search.addEventListener("input", apply);
+
       apply();
-    });
-  });
-
-  // Search
-  if (search) search.addEventListener("input", apply);
-
-  // Run once immediately (NO DOMContentLoaded dependency)
-  apply();
-})();
-</script>
-
-<script src="assets/js/site.js" defer></script>
+    })();
+  </script>
+</body>
+</html>
