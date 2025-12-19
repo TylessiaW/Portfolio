@@ -1,27 +1,13 @@
-/* ==========================================================
-   site.js — Global behavior (slide navigation)
-
-   This file is used on every page.
-   - Builds the shared slide-out nav inside #site-nav
-   - Handles open/close for the menu button + overlay
-   - Runs the nav typewriter safely on every page
-
-   Note: Page-specific behavior (ex: homepage typing) should
-   live in separate files (ex: assets/js/home.js).
-   ========================================================== */
-
 (() => {
-  // Update these links in one place.
   const navItems = [
     { href: 'index.html', label: 'Home' },
     { href: 'about.html', label: 'About' },
     { href: 'resume.html', label: 'Resume & Skills' },
     { href: 'projects.html', label: 'Projects' },
-    { href: 'services.html', label: 'Services' },
+    { href: 'store.html', label: 'Store' },
     { href: 'contact.html', label: 'Contact' },
   ];
 
-  // Nav typewriter phrases (global)
   const navPhrases = [
     "IT Support Specialist",
     "Technical Support Technician",
@@ -30,8 +16,7 @@
   ];
 
   function currentPage() {
-    const file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    return file;
+    return (location.pathname.split('/').pop() || 'index.html').toLowerCase();
   }
 
   function buildNav() {
@@ -45,7 +30,6 @@
         <img class="nav-avatar" src="assets/img/profile.jpeg" alt="Profile photo" />
         <div class="nav-name">Tylessia Willis</div>
 
-        <!-- Typewriter target -->
         <div class="tagline-box">
           <span id="nav-typewriter"></span>
           <span class="nav-cursor" aria-hidden="true">|</span>
@@ -53,12 +37,10 @@
       </div>
 
       <ul class="nav-links">
-        ${navItems
-          .map(({ href, label }) => {
-            const isActive = current === href.toLowerCase();
-            return `<li><a class="nav-link${isActive ? ' active' : ''}" href="${href}">${label}</a></li>`;
-          })
-          .join('')}
+        ${navItems.map(({ href, label }) => {
+          const isActive = current === href.toLowerCase();
+          return `<li><a class="nav-link${isActive ? ' active' : ''}" href="${href}">${label}</a></li>`;
+        }).join('')}
       </ul>
     `;
   }
@@ -67,40 +49,30 @@
     const el = document.getElementById("nav-typewriter");
     if (!el) return;
 
-    const phrases = navPhrases;
-    let i = 0;
-    let j = 0;
-    let deleting = false;
-
-    const typeSpeed = 70;
-    const deleteSpeed = 40;
-    const pauseTime = 900;
+    let i = 0, j = 0, deleting = false;
+    const typeSpeed = 70, deleteSpeed = 40, pauseTime = 900;
 
     function tick() {
-      const current = phrases[i];
+      const current = navPhrases[i];
 
       if (!deleting) {
         el.textContent = current.slice(0, j + 1);
         j++;
-
         if (j === current.length) {
           deleting = true;
           setTimeout(tick, pauseTime);
           return;
         }
-
         setTimeout(tick, typeSpeed);
       } else {
         el.textContent = current.slice(0, j - 1);
         j--;
-
         if (j === 0) {
           deleting = false;
-          i = (i + 1) % phrases.length;
+          i = (i + 1) % navPhrases.length;
           setTimeout(tick, 250);
           return;
         }
-
         setTimeout(tick, deleteSpeed);
       }
     }
@@ -133,16 +105,23 @@
       if (e.key === 'Escape') setOpen(false);
     });
 
-    // Close nav after clicking a link (nice on mobile)
+    // ✅ Close nav + force navigation (fixes “link doesn’t open” issues)
     nav.addEventListener('click', (e) => {
       const a = e.target.closest('a');
-      if (a) setOpen(false);
+      if (!a) return;
+
+      const href = a.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+
+      e.preventDefault();
+      setOpen(false);
+      window.location.href = href;
     });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     buildNav();
     wireNav();
-    startNavTypewriter(); // ✅ run after nav is built
+    startNavTypewriter();
   });
 })();

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Store | Tylessia Willis</title>
-  <meta name="description" content="Services and digital templates by Tylessia Willis." />
+  <meta name="description" content="Digital templates and downloads by Tylessia Willis." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,21 +12,128 @@
 
   <link rel="stylesheet" href="assets/css/styles.css" />
 
-  <!-- Small safety styles (only for the new store controls + badges) -->
+  <!-- Store-only polish (no global CSS edits needed) -->
   <style>
     .store-controls{display:grid;gap:12px;margin-top:16px}
     .store-search{width:100%}
     .store-filters{display:flex;flex-wrap:wrap;gap:10px}
-    .pill-btn{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:inherit;padding:8px 12px;border-radius:999px;cursor:pointer;font:inherit}
-    .pill-btn.is-active{background:rgba(255,255,255,.10)}
-    .store-badge{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10)}
-    .card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .store-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .pill-btn{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.04);
+      color:inherit;
+      padding:8px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font:inherit
+    }
+    .pill-btn.is-active{background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22)}
     .is-hidden{display:none!important}
+
+    /* Section spacing */
+    .store-section{margin-top:22px}
+    .store-section .h2{margin:0 0 12px}
+
+    /* Product catalog card */
+    .catalog{display:grid;gap:14px}
+    .product{
+      display:grid;
+      grid-template-columns: 220px 1fr;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.035);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    @media (max-width: 780px){
+      .product{grid-template-columns:1fr}
+    }
+
+    .product__media{
+      text-decoration:none;
+      color:inherit;
+    }
+    .product__thumb{
+      border-radius: 14px;
+      aspect-ratio: 16 / 10;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      display:grid;
+      place-items:center;
+      font-size: 13px;
+      opacity: .88;
+      overflow:hidden;
+    }
+    .product__thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      opacity:.95;
+    }
+
+    .product__top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .product__type{
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity: .72;
+    }
+    .product__badge{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      white-space:nowrap;
+    }
+
+    .product__title{margin:10px 0 6px;font-size:20px;line-height:1.25}
+    .product__desc{margin:0 0 10px;opacity:.78;line-height:1.45}
+
+    .product__tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:14px;
+    }
+    .tag{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      opacity:.9;
+    }
+
+    .product__actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{padding:10px 14px;border-radius:12px}
+
+    .product__note{
+      margin-top: 8px;
+      font-size: 13px;
+      opacity: .65;
+    }
+
+    .results-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top: 14px;
+      opacity: .85;
+      flex-wrap:wrap;
+    }
+
+    .sr-only{position:absolute;left:-9999px}
   </style>
 </head>
-<body>
 
+<body>
   <!-- Nav -->
   <button id="menu-toggle" class="menu-toggle" aria-label="Open navigation" aria-expanded="false" type="button">
     <span class="bars" aria-hidden="true">
@@ -40,152 +147,125 @@
 
   <main class="page">
     <div class="container">
-
       <section class="card card-pad">
-        <h1 class="h1">Digital products & services</h1>
+        <h1 class="h1">Store Catalog</h1>
         <p class="muted" style="margin-top:10px">
-          Templates built for job seekers, creator, and small business owners.</p>
+          Digital templates and services built for job seekers, creators, and small business owners.
+        </p>
 
         <!-- Search + Filters -->
         <div class="store-controls">
+          <label class="sr-only" for="storeSearch">Search store items</label>
           <input
             id="storeSearch"
             class="input store-search"
             type="search"
-            placeholder="Search templates, guides, services..."
+            placeholder="Search templates, services..."
             aria-label="Search store items"
           />
 
           <div class="store-filters" role="tablist" aria-label="Store filters">
             <button class="pill-btn is-active" data-filter="all" type="button">All</button>
-            <button class="pill-btn" data-filter="services" type="button">Services</button>
             <button class="pill-btn" data-filter="templates" type="button">Templates</button>
-            <button class="pill-btn" data-filter="guides" type="button">Guides</button>
+            <button class="pill-btn" data-filter="guides" type="button">services</button>
+          </div>
+
+          <div class="results-meta">
+            <span id="resultCount">0 results</span>
+            <span class="muted">Released items are sold via Gumroad</span>
           </div>
         </div>
 
         <div class="divider" style="margin-top:18px"></div>
 
-        <!-- SERVICES -->
-        <h2 class="h2">Services</h2>
+        <!-- Templates -->
+        <div class="store-section">
+          <h2 class="h2">Templates</h2>
 
-        <div class="grid grid-3">
-          <div class="card store-item" data-type="services" data-title="Portfolio Website">
-            <div class="card-top">
-              <span class="pill"></span>
-            </div>
+          <div class="catalog">
+            <!-- Linen -->
+            <article class="product store-item" data-type="templates" data-title="Linen Portfolio Template">
+              <!-- No preview link: thumbnail is just visual -->
+              <div class="product__media" aria-hidden="true">
+                <div class="product__thumb">
+                  <img
+                    src="StoreCatalog Thumbnails/Linen/Linen Portfolio Thumbnail.jpg"
+                    alt="Linen Portfolio Template preview"
+                  />
+                </div>
+              </div>
 
-            <h3 style="margin-top:10px">Custom Website</h3>
-            <div class="pill-row">
-              <span class="pill">Custom website template for personal, creators, or small business.</span>
-            </div>
+              <div class="product__content">
+                <div class="product__top">
+                  <span class="product__type">Template</span>
+                  <span class="product__badge">New • Gumroad</span>
+                </div>
 
-            <div class="store-actions">
-              <a class="btn primary" href="contact.html">Request quote</a>
-            </div>
-          </div>
+                <h3 class="product__title">Linen Portfolio Template</h3>
+                <p class="product__desc">
+                  Light, soft portfolio template built with HTML/CSS/JS. Clean sections,
+                 aesthetic layout, and easy customization.
+                </p>
 
-          <div class="card store-item" data-type="services" data-title="Website Refresh">
-    
+                <div class="product__tags">
+                  <span class="tag">HTML</span>
+                  <span class="tag">CSS</span>
+                  <span class="tag">JS</span>
+                  <span class="tag">Responsive</span>
+                  <span class="tag">Light theme</span>
+                  <span class="tag">Aesthetic</span>
+                </div>
+<script>
+(() => {
+  const search = document.getElementById("storeSearch");
+  const count = document.getElementById("resultCount");
+  const filterBtns = Array.from(document.querySelectorAll(".pill-btn"));
+  const items = Array.from(document.querySelectorAll(".store-item"));
 
-            <h3 style="margin-top:10px">Website Refresh</h3>
-            <p class="muted">
-              Cleanup, mobile fixes, and visual polish for existing sites.
-            </p>
+  // If these log 0, your IDs/classes don't match your HTML
+  console.log("storeSearch:", !!search);
+  console.log("resultCount:", !!count);
+  console.log("pill-btn count:", filterBtns.length);
+  console.log("store-item count:", items.length);
 
-            <div class="pill-row">
-              <span class="pill">UX</span>
-              <span class="pill">Performance</span>
-            </div>
+  let active = "all";
 
-            <div class="store-actions">
-              <a class="btn primary" href="contact.html">Request quote</a>
-            </div>
-          </div>
+  function apply() {
+    const q = (search?.value || "").trim().toLowerCase();
+    let visible = 0;
 
-          <div class="card store-item" data-type="services" data-title="Ongoing Support">
-            <div class="card-top">
-            </div>
+    items.forEach((el) => {
+      const type = (el.getAttribute("data-type") || "").toLowerCase();
+      const title = (el.getAttribute("data-title") || "").toLowerCase();
+      const text = (el.textContent || "").toLowerCase();
 
-            <h3 style="margin-top:10px">Ongoing Support</h3>
-            <p class="muted">
-              Updates, fixes, and help when something breaks.
-            </p>
+      const okType = (active === "all") || (type === active);
+      const okSearch = !q || title.includes(q) || text.includes(q);
 
-            <div class="pill-row">
-              <span class="pill">Maintenance</span>
-              <span class="pill">Support</span>
-            </div>
+      const show = okType && okSearch;
+      el.classList.toggle("is-hidden", !show);
+      if (show) visible++;
+    });
 
-            <div class="store-actions">
-              <a class="btn primary" href="contact.html">Request quote</a>
-            </div>
-          </div>
-        </div>
+    if (count) count.textContent = `${visible} result${visible === 1 ? "" : "s"}`;
+  }
 
-        <div class="divider" style="margin-top:18px"></div>
-
-        <!-- TEMPLATES -->
-        <h2 class="h2">Templates</h2>
-
-        <div class="grid grid-3">
-          <div class="card store-item" data-type="templates" data-title="Minimal Portfolio Template">
-            <div class="card-top">
-              <span class="pill"><h3 style="margin-top:10px">Portfolio Template</h3></span>
-              <span class="store-badge">Coming soon</span>
-            </div>
-            <p class="muted">
-              Dark, modern portfolio you can deploy on GitHub Pages.
-            </p>
-
-            <div class="store-actions">
-              <a class="btn primary" href="contact.html">Get notified</a>
-              <a class="btn" href="projects.html">Preview</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <script src="assets/js/site.js" defer></script>
-
-  <!-- Store search + filters -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const search = document.getElementById("storeSearch");
-      const items = Array.from(document.querySelectorAll(".store-item"));
-      const filterBtns = Array.from(document.querySelectorAll(".pill-btn"));
-
-      let active = "all";
-
-      function apply() {
-        const q = (search?.value || "").trim().toLowerCase();
-
-        items.forEach(el => {
-          const type = el.getAttribute("data-type") || "";
-          const title = (el.getAttribute("data-title") || "").toLowerCase();
-          const text = (el.textContent || "").toLowerCase();
-
-          const okType = (active === "all") || (type === active);
-          const okSearch = !q || title.includes(q) || text.includes(q);
-
-          el.classList.toggle("is-hidden", !(okType && okSearch));
-        });
-      }
-
-      filterBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-          filterBtns.forEach(b => b.classList.remove("is-active"));
-          btn.classList.add("is-active");
-          active = btn.getAttribute("data-filter") || "all";
-          apply();
-        });
-      });
-
-      search?.addEventListener("input", apply);
+  // Pills
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      active = (btn.getAttribute("data-filter") || "all").toLowerCase();
       apply();
     });
-  </script>
-</body>
-</html>
+  });
+
+  // Search
+  if (search) search.addEventListener("input", apply);
+
+  // Run once immediately (NO DOMContentLoaded dependency)
+  apply();
+})();
+</script>
+
+<script src="assets/js/site.js" defer></script>

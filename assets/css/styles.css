@@ -689,3 +689,90 @@ small {
   height: 44px;
   border-radius: 14px;
 }
+/* Better section spacing */
+.h2 { margin: 22px 0 12px; }
+.grid.grid-3 { gap: 16px; }
+
+/* Product card */
+.product{
+  display:grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.035);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+@media (max-width: 780px){
+  .product{ grid-template-columns: 1fr; }
+}
+
+.product__media{ text-decoration:none; color: inherit; }
+.product__thumb{
+  border-radius: 14px;
+  aspect-ratio: 16 / 10;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  display:grid;
+  place-items:center;
+  font-size: 13px;
+  opacity: .85;
+}
+
+.product__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+}
+
+.product__type{
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .7;
+}
+
+.product__badge{
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.product__title{ margin: 10px 0 6px; font-size: 20px; }
+.product__desc{ margin: 0 0 10px; opacity: .78; line-height: 1.45; }
+
+.product__tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tag{
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  opacity: .9;
+}
+
+.product__actions{
+  display:flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Make your buttons feel less chunky */
+.btn{ padding: 10px 14px; border-radius: 12px; }
+
+.product__note{
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: .65;
+}
